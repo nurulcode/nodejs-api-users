@@ -10,8 +10,7 @@ const User = new Schema({
         type: String
     },
     error: {
-        type: Boolean,
-        default: false
+        type: Boolean
     },
     token: {
         type: String

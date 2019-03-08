@@ -1,6 +1,7 @@
 const express    = require('express');
 const router     = express.Router();
 const USER       = require('../models/user')
+const config     = require('../models/config')
 const jwt        = require('jsonwebtoken');
 const helpers    = require('../helpers/util');
 const bcrypt     = require('bcryptjs');
@@ -15,7 +16,7 @@ router.get('/', (req, res, next) => {
 router.post('/register', (req, res, next) => {
 
     let register = new USER();
-    let token = jwt.sign(req.body.email, 'this is secret');
+    let token = jwt.sign(req.body.email, config.secret);
     USER.findOne({ email: req.body.email}).then((user) => {
         console.log(user)
         if (!user) {
@@ -38,15 +39,15 @@ router.post('/register', (req, res, next) => {
                     });
                 });
             } else {
-                res.json({
+                res.status(409).json({
                     error: true,
-                    message: 'registrasi gagal'
+                    message: 'Registration failed'
                 });
             }
         } else {
-            res.json({
+            res.status(409).json({
                 error: true,
-                message: 'email sudah ada'
+                message: 'This email is already registered'
             });
         }
     }).catch(err => console.log(err))
@@ -57,16 +58,16 @@ router.post('/login', (req, res, next) => {
         if (!user) {
             res.json({
                 error: true,
-                message: 'user tidak terdaftar'
+                message: 'Unregistered user'
             });
         } else {
             if (!bcrypt.compareSync(req.body.password, user.password)) {
                 res.json({
                     error: true,
-                    message: 'password tidak sesuai'
+                    message: 'Password does not match'
                 });
             } else {
-                let token = jwt.sign(user.email, 'this is secret');
+                let token = jwt.sign(user.email, config.secret);
 
                 USER.updateOne({email : req.params.email}, {$set : {token : token} }, (err) => {
                     if (err) return res.send(err);
