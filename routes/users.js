@@ -14,11 +14,11 @@ router.get('/', (req, res, next) => {
 })
 
 router.post('/register', (req, res, next) => {
-
     let register = new USER();
     let token = jwt.sign(req.body.email, config.secret);
+
     USER.findOne({ email: req.body.email}).then((user) => {
-        console.log(user)
+
         if (!user) {
             if (req.body.password == req.body.retypepassword) {
                 let salt = bcrypt.genSaltSync(10);
@@ -32,20 +32,23 @@ router.post('/register', (req, res, next) => {
 
                     if (err) return res.send(err);
                     res.status(201).json({
+                        error : false,
                         data: {
+
                             email: req.body.email
                         },
-                        password: token
+                        password: token,
+
                     });
                 });
             } else {
-                res.status(409).json({
+                res.json({
                     error: true,
                     message: 'Registration failed'
                 });
             }
         } else {
-            res.status(409).json({
+            res.json({
                 error: true,
                 message: 'This email is already registered'
             });

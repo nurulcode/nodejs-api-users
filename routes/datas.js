@@ -54,6 +54,10 @@ router.put('/:id', (req, res) => {
     router.post('/', (req, res) => {
         let data = new DATA({});
 
+
+        console.log(req.body);
+
+
         data.letter = req.body.letter
         data.frequency = Number(req.body.freq)
 
@@ -111,41 +115,3 @@ router.put('/:id', (req, res) => {
     })
 
     module.exports = router;
-
-    [
-    {
-        "_id": "5c7a204a1c539a17ebb1b83b",
-        "letter": "2017-12-31T00:00:00.000Z",
-        "frequency": 1.2,
-        "__v": 0
-    },
-    {
-        "_id": "5c7a22a133a564199233c95e",
-        "frequency": 1.2,
-        "__v": 0
-    },
-    {
-        "_id": "5c7a239c1335191a31ba0b2b",
-        "letter": "2019-03-02T06:33:00.025Z",
-        "frequency": 1.2,
-        "__v": 0
-    },
-    {
-        "_id": "5c7a27ebfdfc811b43f1d964",
-        "letter": "2019-03-02T06:51:23.487Z",
-        "frequency": 1.2,
-        "__v": 0
-    },
-    {
-        "_id": "5c7a2801fdfc811b43f1d965",
-        "letter": "2019-03-02T06:51:45.161Z",
-        "frequency": 1.5,
-        "__v": 0
-    },
-    {
-        "_id": "5c7a280ffdfc811b43f1d966",
-        "letter": "2018-02-02T00:00:00.000Z",
-        "frequency": 1.5,
-        "__v": 0
-    }
-]
