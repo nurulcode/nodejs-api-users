@@ -3,12 +3,10 @@ var path = require('path');
 var cookieParser = require('cookie-parser');
 var logger = require('morgan');
 const mongoose = require('mongoose');
-const config = require('./models/config')
+const config = require('./models/config');
 var cors = require('cors');
 
-mongoose.connect(config.database, {
-    useNewUrlParser: true
-});
+mongoose.connect(config.database, { useNewUrlParser: true });
 
 var datadatesRouter = require('./routes/datadates');
 var datasRouter = require('./routes/datas');
@@ -19,9 +17,7 @@ var app = express();
 
 app.use(logger('dev'));
 app.use(express.json());
-app.use(express.urlencoded({
-    extended: false
-}));
+app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 

@@ -1,23 +1,21 @@
 var express = require('express');
 var router = express.Router();
 const MAPS = require('../models/map')
+const helpers    = require('../helpers/util');
+
 
 //SEARCH
-router.post('/search', (req, res) => {
+router.post('/search',  (req, res) => {
+    console.log(req.body.title)
     MAPS.find({title: req.body.title }).then((searchData) => {
         console.log(searchData);
-        res.status(200).json([{
-            _id : searchData[0]._id,
-            title : searchData[0].title,
-            lat : Number(searchData[0].lat),
-            lng : Number(searchData[0].lng)
-        }]);
+        res.status(200).json(searchData);
 
     }).catch(err => console.log(err))
 });
 
 //READ
-router.get('/', function(req, res, next) {
+router.get('/',  function(req, res, next) {
     MAPS.find({}).then((getData) => {
         res.status(200).json(getData);
     }).catch( err => console.log(err));

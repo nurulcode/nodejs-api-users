@@ -94,7 +94,7 @@ router.post('/check', helpers.token, (req, res, next) => {
     });
 });
 
-router.get('/destroy', (req, res, next) => {
+router.get('/destroy', helpers.token, (req, res, next) => {
     USER.findOne({email: req.query.email}, (err, user) => {
         console.log(user);
         USER.updateOne({ email : req.query.email}, {$set: {token: null} }, (err) => {

@@ -2,10 +2,12 @@ var express = require('express');
 var router = express.Router();
 const DATE = require('../models/datadate')
 var moment = require('moment');
+const helpers    = require('../helpers/util');
 
 //SEARCH
 router.post('/search', (req, res) => {
-    DATE.find({ $or: [{letter: req.body.letter , frequency: req.body.freq},{letter: req.body.letter},{frequency: req.body.freq}] }).then((item) => {
+    console.log(moment(req.body.letter).format('YYYY-MM-DD'));
+    DATE.find({ $or: [{letter: moment(req.body.letter).format('YYYY-MM-DD') , frequency: Number(req.body.freq)},{letter: moment(req.body.letter).format('YYYY-MM-DD')},{frequency: Number(req.body.freq)}] }).then((item) => {
 
         console.log(item);
         res.status(201).json([{
@@ -20,8 +22,16 @@ router.post('/search', (req, res) => {
 
 //READ
 router.get('/', function(req, res, next) {
+     let dataList = []
     DATE.find({}).then((getData) => {
-        res.status(200).json(getData);
+        for (let item of getData) {
+            dataList.push({
+                _id: item._id,
+                letter: moment(item.letter).format("YYYY-MM-DD"),
+                frequency: Number(item.frequency)
+            })
+        }
+        res.status(200).json(dataList);
     }).catch( err => console.log(err));
 });
 

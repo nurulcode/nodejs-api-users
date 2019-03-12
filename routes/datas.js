@@ -3,6 +3,8 @@ var router = express.Router();
 const DATA       = require('../models/data')
 const bcrypt     = require('bcryptjs');
 const jwt        = require('jsonwebtoken');
+const helpers    = require('../helpers/util');
+
 
 /* GET users listing. */
 
